@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100b25">
+  <title>Growth Bridge RPG Academy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="loadingScreen">
+    <div class="loading-content">
+      <div class="crest">✦</div>
+      <h1>GROWTH BRIDGE</h1>
+      <h2>RPG ACADEMY</h2>
+      <p>Your journey. Your progress. Your victory.</p>
+      <div class="loading-track"><div id="loadingBar"></div></div>
+      <span id="loadingPercent">0%</span>
+    </div>
+  </div>
+
+  <div id="app" class="hidden">
+    <header class="topbar">
+      <div class="brand">✦ GROWTH BRIDGE</div>
+      <div class="player-info">
+        <span id="playerName">Adventurer</span>
+        <span>⭐ <b id="xp">0</b> XP</span>
+        <span>🪙 <b id="coins">0</b></span>
+      </div>
+    </header>
+
+    <main>
+      <section id="lobby" class="screen active">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">WELCOME, ADVENTURER</p>
+            <h1>Your next level<br>starts today.</h1>
+            <p>Learn. Complete missions. Earn achievements.</p>
+            <button onclick="showScreen('missions')">ENTER MISSIONS →</button>
+          </div>
+          <div class="hero-character">🛡️</div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><span>⚔️</span><small>LEVEL</small><strong id="levelStat">1</strong></div>
+          <div class="stat-card"><span>⭐</span><small>TODAY'S AP</small><strong id="todayStat">0</strong></div>
+          <div class="stat-card"><span>🏆</span><small>ACHIEVEMENTS</small><strong id="achievementStat">0</strong></div>
+          <div class="stat-card"><span>🔥</span><small>STREAK</small><strong>0 days</strong></div>
+        </div>
+        <h2 class="section-title">YOUR ACADEMY</h2>
+        <div class="feature-grid">
+          <button class="feature-card" onclick="showScreen('missions')">⚔️<span>Missions</span></button>
+          <button class="feature-card" onclick="showScreen('progress')">📊<span>Progress</span></button>
+          <button class="feature-card" onclick="showScreen('community')">👥<span>Community</span></button>
+          <button class="feature-card" onclick="showScreen('achievements')">🏆<span>Achievements</span></button>
+          <button class="feature-card" onclick="showScreen('rewards')">🎁<span>Rewards</span></button>
+          <button class="feature-card" onclick="showScreen('character')">🧙<span>Character</span></button>
+          <button class="feature-card" onclick="showScreen('teammates')">🤝<span>Teammates</span></button>
+          <button class="feature-card" onclick="showScreen('adopt')">🐱<span>Adopt</span></button>
+          <button class="feature-card" onclick="showScreen('ambassadors')">👑<span>Ambassador</span></button>
+        </div>
+      </section>
+
+      <section id="missions" class="screen">
+        <h1>⚔️ Mission Board</h1>
+        <p class="muted">Complete your tasks and record your evidence.</p>
+        <div class="panel">
+          <h3>Add a mission</h3>
+          <input id="taskInput" placeholder="Enter your task">
+          <select id="taskCategory">
+            <option>Study</option><option>Writing</option>
+            <option>Revision</option><option>Exercise</option>
+            <option>Personal</option>
+          </select>
+          <input id="taskPoints" type="number" min="1" max="50" value="10" placeholder="AP points">
+          <button onclick="addTask()">+ Add mission</button>
+        </div>
+        <div class="panel">
+          <h3>Active missions</h3>
+          <div id="activeTasks"></div>
+        </div>
+        <div class="panel">
+          <h3>Completed missions</h3>
+          <div id="completedTasks"></div>
+        </div>
+      </section>
+
+      <section id="progress" class="screen">
+        <h1>📊 Academy Progress</h1>
+        <div class="stats-grid">
+          <div class="stat-card"><small>TODAY'S AP</small><strong id="progressToday">0</strong></div>
+          <div class="stat-card"><small>WEEKLY AP</small><strong id="weeklyAP">0</strong></div>
+          <div class="stat-card"><small>XP</small><strong id="progressXP">0</strong></div>
+          <div class="stat-card"><small>COINS</small><strong id="progressCoins">0</strong></div>
+        </div>
+        <div class="panel">
+          <h3>Weekly performance</h3>
+          <div class="progress-track"><div id="weeklyBar"></div></div>
+          <p id="weeklyMessage">Start completing missions to earn AP.</p>
+          <p class="muted">Maximum: 750 AP per week. Working day: 100 AP; Sunday/holiday: 150 AP.</p>
+        </div>
+        <div class="panel">
+          <h3>Level journey</h3>
+          <div id="levelJourney"></div>
+        </div>
+      </section>
+
+      <section id="community" class="screen">
+        <h1>👥 Academy Community</h1>
+        <div class="panel">
+          <h3>Leaderboard</h3>
+          <div class="tabs">
+            <button onclick="setLeaderboard('week')">Week</button>
+            <button onclick="setLeaderboard('month')">Month</button>
+          </div>
+          <div id="leaderboard"></div>
+          <p class="muted">Demo leaderboard: real class rankings require a teacher-connected shared backend.</p>
+        </div>
+        <div class="panel">
+          <h3>Academy members</h3>
+          <p>Members approved by your teacher will appear here when the online class system is connected.</p>
+        </div>
+      </section>
+
+      <section id="achievements" class="screen">
+        <h1>🏆 Achievements</h1>
+        <div class="panel">
+          <h3>Unlocked achievements</h3>
+          <div id="unlockedAchievements">No achievements unlocked yet. Complete your first mission!</div>
+        </div>
+        <div class="panel">
+          <h3>Achievements to unlock</h3>
+          <div class="achievement">⭐ First Mission — Complete your first task</div>
+          <div class="achievement">📚 Study Champion — Complete 10 study tasks</div>
+          <div class="achievement">🔥 Consistency — Study on 7 different days</div>
+          <div class="achievement">👑 Ambassador — Be selected by your teacher</div>
+        </div>
+      </section>
+
+      <section id="rewards" class="screen">
+        <h1>🎁 Reward Chest</h1>
+        <div class="hero chest">
+          <div><h2>Your rewards await!</h2><p>Collect coins and unlock academy rewards.</p></div>
+          <div class="hero-character">🏆</div>
+        </div>
+        <div class="panel">
+          <h3>Collectible Ambassador Token</h3>
+          <div class="token">👑</div>
+          <p>Earn this special token when your teacher declares you Ambassador.</p>
+          <p id="tokenStatus">🔒 Not yet collected</p>
+        </div>
+        <div class="panel">
+          <h3>Next rewards</h3>
+          <p>⭐ 100 XP — Bronze Scholar</p>
+          <p>⭐ 500 XP — Silver Scholar</p>
+          <p>⭐ 1000 XP — Gold Scholar</p>
+        </div>
+      </section>
+
+      <section id="character" class="screen">
+        <h1>🧙 Character Customization</h1>
+        <div class="panel character-panel">
+          <div class="big-character" id="avatarPreview">🛡️</div>
+          <input id="nameInput" placeholder="Your adventurer name">
+          <div class="avatar-options">
+            <button onclick="chooseAvatar('🛡️')">🛡️</button>
+            <button onclick="chooseAvatar('🧙')">🧙</button>
+            <button onclick="chooseAvatar('🧝')">🧝</button>
+            <button onclick="chooseAvatar('🦸')">🦸</button>
+            <button onclick="chooseAvatar('🧑‍🎓')">🧑‍🎓</button>
+          </div>
+          <button onclick="saveCharacter()">Save character</button>
+        </div>
+      </section>
+
+      <section id="teammates" class="screen">
+        <h1>🤝 Teammates</h1>
+        <div class="panel">
+          <h3>Choose your team</h3>
+          <p>Teammate selection becomes available when your teacher enables it.</p>
+          <p class="muted">Only teacher-approved students can join your team. Unmatched students can be assigned according to the academy's teacher-approved rules.</p>
+          <div class="achievement">🔒 Waiting for teacher permission</div>
+        </div>
+      </section>
+
+      <section id="adopt" class="screen">
+        <h1>🐾 Adopt an animal</h1>
+        <p class="muted">Choose a companion for your academy journey.</p>
+        <div class="animal-grid">
+          <button onclick="adoptAnimal('Cat','🐱')">🐱<span>Cat</span></button>
+          <button onclick="adoptAnimal('Lion','🦁')">🦁<span>Lion</span></button>
+          <button onclick="adoptAnimal('Fox','🦊')">🦊<span>Fox</span></button>
+          <button onclick="adoptAnimal('Rabbit','🐰')">🐰<span>Rabbit</span></button>
+          <button onclick="adoptAnimal('Panda','🐼')">🐼<span>Panda</span></button>
+          <button onclick="adoptAnimal('Tiger','🐯')">🐯<span>Tiger</span></button>
+        </div>
+        <div class="panel"><h3>Your companion</h3><p id="petDisplay">No companion adopted yet.</p></div>
+      </section>
+
+      <section id="ambassadors" class="screen">
+        <h1>👑 Ambassador Awards</h1>
+        <div class="panel award-panel">
+          <div class="award-art">👑</div>
+          <h2>WEEKLY AMBASSADOR</h2>
+          <p>ACHIEVEMENT EARNED BY</p>
+          <h2 id="weeklyWinner">Not announced</h2>
+        </div>
+        <div class="panel award-panel">
+          <div class="award-art">🏆</div>
+          <h2>MONTHLY AMBASSADOR</h2>
+          <p>ACHIEVEMENT EARNED BY</p>
+          <h2 id="monthlyWinner">Not announced</h2>
+        </div>
+        <p class="muted">Award publishing is a local demo. Real teacher-only announcements need a secure backend.</p>
+      </section>
+
+      <section id="settings" class="screen">
+        <h1>⚙️ Settings</h1>
+        <div class="panel">
+          <h3>Data management</h3>
+          <button onclick="exportData()">Export backup</button>
+          <button class="secondary" onclick="resetData()">Reset local data</button>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button onclick="showScreen('lobby')" title="Lobby">▦</button>
+      <button onclick="showScreen('missions')" title="Missions">⚔️</button>
+      <button onclick="showScreen('progress')" title="Progress">📊</button>
+      <button onclick="showScreen('community')" title="Community">👥</button>
+      <button onclick="showScreen('achievements')" title="Achievements">🏆</button>
+      <button onclick="showScreen('rewards')" title="Rewards">🎁</button>
+      <button onclick="showScreen('settings')" title="Settings">⚙️</button>
+    </nav>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
